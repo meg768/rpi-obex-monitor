@@ -61,26 +61,21 @@ module.exports = class Monitor extends Events {
 
         debug('File monotoring enabled on folder', this.path);
 
-        var start = new Date();
-        var last  = new Date();
         var timer = undefined;
-
+        var self  = this;
 
         this.watcher = fs.watch(this.path, (type, fileName) => {
 
+
             function emit() {
-                console.log('XXX', type, fileName);
+                console.log('Change', fileName);
+                self.emit('change', fileName);
             }
 
             if (timer != undefined)
                 clearTimeout(timer);
 
             timer = setTimeout(emit, 3000);
-
-            var now = new Date();
-            console.log('Type', type, 'Filename', fileName);
-            console.log((now - last) / 1000);
-            last = now;
         });
     }
 
