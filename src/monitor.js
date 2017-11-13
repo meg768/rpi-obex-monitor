@@ -105,12 +105,13 @@ module.exports = class Monitor extends Events {
 
         this.watcher = fs.watch(this.path, (type, fileName) => {
 
-            debug('File watch:', type, fileName);
+            var fullFileName = Path.join(self.path, fileName);
 
-            if (fs.existsSync(fileName)) {
+            debug('File watch:', type, fileName, fullFileName);
+
+            if (fs.existsSync(fullFileName)) {
 
                 function emit() {
-                    var fullFileName = Path.join(self.path, fileName);
 
                     debug('Change', fileName);
 
