@@ -4,6 +4,8 @@ var Events        = require('events');
 var ChildProcess  = require('child_process');
 var Path          = require('path');
 
+var debugEnabled  = false;
+
 function debug() {
     console.log.apply(this, arguments);
 }
@@ -15,6 +17,10 @@ module.exports = class Monitor extends Events {
 		super();
 
         options = options || {};
+
+        if (options.debug == undefined) {
+            debug = function() {};
+        }
 
         if (options.path == undefined)
             throw new Error('A path to monitor must be specified.')
