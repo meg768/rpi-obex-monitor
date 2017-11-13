@@ -63,8 +63,20 @@ module.exports = class Monitor extends Events {
 
         var start = new Date();
         var last  = new Date();
+        var timer = undefined;
+
 
         this.watcher = fs.watch(this.path, (type, fileName) => {
+
+            function emit() {
+                console.log('XXX', type, fileName);
+            }
+
+            if (timer != undefined)
+                clearTimeout(timer);
+
+            timer = setTimeout(emit, 3000);
+
             var now = new Date();
             console.log('Type', type, 'Filename', fileName);
             console.log((now - last) / 1000);
