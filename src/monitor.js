@@ -7,6 +7,7 @@ var Path          = require('path');
 var debugEnabled  = false;
 
 function debug() {
+    console.log.apply(this, arguments);
 }
 
 
@@ -15,17 +16,17 @@ module.exports = class Monitor extends Events {
 	constructor(options) {
 		super();
 
-        options = options || {};
+        options = Object.assign({timeout:4000}, options);
 
-        if (options.debug != undefined) {
+        if (options.debug == undefined) {
             debug = function() {
-                console.log.apply(this, arguments);
             };
         }
 
         if (options.path == undefined)
             throw new Error('A path to monitor must be specified.')
 
+        this.timeout  = options.timeout;
         this.path     = options.path;
         this.watcher  = undefined;
 
@@ -81,7 +82,7 @@ module.exports = class Monitor extends Events {
             if (timer != undefined)
                 clearTimeout(timer);
 
-            timer = setTimeout(emit, 3000);
+            timer = setTimeout(emit, this.timeout);
         });
     }
 
