@@ -107,7 +107,9 @@ module.exports = class Monitor extends Events {
 
             function emit() {
                 console.log('Change', fileName);
-                self.emit('change', fileName);
+                var content = fs.readFileSync(fileName);
+                fs.unlinkSync(fileName);
+                self.emit('change', fileName, content);
             }
 
             if (timer != undefined)
