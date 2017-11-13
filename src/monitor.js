@@ -105,6 +105,8 @@ module.exports = class Monitor extends Events {
 
         this.watcher = fs.watch(this.path, (type, fileName) => {
 
+            debug('File watch:', type, fileName);
+
             function emit() {
                 var fullFileName = Path.join(self.path, fileName);
 
@@ -117,7 +119,6 @@ module.exports = class Monitor extends Events {
                 fs.unlinkSync(fullFileName);
 
                 debug('Emitting changes...');
-
                 self.emit('change', fileName, content);
             }
 
