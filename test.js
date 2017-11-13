@@ -17,7 +17,6 @@ monitor.on('change', (fileName, content) => {
     catch(error) {
         console.log('File content');
         console.log(content);
-
     }
 });
 
