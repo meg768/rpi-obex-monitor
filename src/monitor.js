@@ -18,7 +18,7 @@ module.exports = class Monitor extends Events {
 
         options = Object.assign({timeout:4000}, options);
 
-        if (options.debug == undefined) {
+        if (options.debug) {
             debug = function() {
             };
         }

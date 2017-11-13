@@ -1,5 +1,5 @@
 var Monitor = require('./src/monitor.js');
-var monitor = new Monitor({path:'/boot/bluetooth', debug:true});
+var monitor = new Monitor({path:'/boot/bluetooth', debug:false});
 var Path    = require('path');
 
 monitor.enableBluetooth();
