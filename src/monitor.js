@@ -21,7 +21,7 @@ module.exports = class Monitor extends Events {
             throw new Error('A path to monitor must be specified.')
 
         this.path     = options.path;
-        this.monitor  = undefined;
+        this.watcher  = undefined;
 
 	}
 
@@ -56,7 +56,26 @@ module.exports = class Monitor extends Events {
 
     }
 
+    start() {
+        this.stop();
 
+        debug('File monotoring enabled on folder', this.path);
+
+        this.watcher = fs.watch(this.path, (type, fileName) => {
+            console.log('Type', type, 'Filename', fileName);
+        });
+    }
+
+    stop() {
+        if (this.watcher != undefined) {
+            debug('Stopping file monotoring on file', this.fileName);
+
+            this.watcher.close();
+            this.watcher = undefined;
+        }
+    }
+
+/*
     start() {
 
         this.stop();
@@ -95,6 +114,6 @@ module.exports = class Monitor extends Events {
             this.monitor = undefined;
         }
     }
-
+*/
 
 };
