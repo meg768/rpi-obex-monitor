@@ -15,7 +15,7 @@ var Path    = require('path');
 
 // Enable Bluetooth discovery for 30 minutes.
 // Call disableBluetooth() to stop
-monitor.enableBluetooth(30000);
+monitor.enableBluetooth(30 * 60 * 1000);
 
 // Start monitoring. Stop by calling stop()
 monitor.start();
