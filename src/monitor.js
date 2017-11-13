@@ -4,10 +4,9 @@ var Events        = require('events');
 var ChildProcess  = require('child_process');
 var Path          = require('path');
 
-var debugEnabled  = false;
 
 function debug() {
-    console.log.apply(this, arguments);
+	console.log.apply(this, arguments);
 }
 
 
@@ -16,129 +15,129 @@ module.exports = class Monitor extends Events {
 	constructor(options) {
 		super();
 
-        var self = this;
+		var self = this;
 
-        options = Object.assign({timeout:4000}, options);
+		options = Object.assign({timeout:4000}, options);
 
-        if (!options.debug) {
-            debug = function() {
-            };
-        }
+		if (!options.debug) {
+			debug = function() {
+			};
+		}
 
-        function findObexPath() {
-            debug('Finding OBEX path!!');
+		function findObexPath() {
+			debug('Finding OBEX path!!');
 
-            var fileName = '/etc/systemd/system/obexpush.service';
+			var fileName = '/etc/systemd/system/obexpush.service';
 
-            if (!fs.existsSync(fileName))
-                throw new Error('OBEX probably not installed.')
+			if (!fs.existsSync(fileName))
+				throw new Error('OBEX probably not installed.')
 
-            var content = fs.readFileSync(fileName).toString();
+			var content = fs.readFileSync(fileName).toString();
 
-            debug('Obex:', content);
+			debug('Obex:', content);
 
-            try {
-                var match = content.match('ExecStart=.*-o\s*(.*)[^\s].\n');
-                var path  = match[1].trim();
+			try {
+				var match = content.match('ExecStart=.*-o\s*(.*)[^\s].\n');
+				var path  = match[1].trim();
 
-                debug('OBEX path:', path);
-                return path;
+				debug('OBEX path:', path);
+				return path;
 
-            }
-            catch (error) {
-                console.log(error);
-            }
+			}
+			catch (error) {
+				console.log(error);
+			}
 
-        }
+		}
 
-        if (options.path == undefined)
-            options.path = findObexPath();
+		if (options.path == undefined)
+			options.path = findObexPath();
 
-        if (options.path == undefined)
-            throw new Error('A path to monitor must be specified.')
+		if (options.path == undefined)
+			throw new Error('A path to monitor must be specified.')
 
-        this.timeout  = options.timeout;
-        this.path     = options.path;
-        this.watcher  = undefined;
+		this.timeout  = options.timeout;
+		this.path     = options.path;
+		this.watcher  = undefined;
 
 
 	}
 
 
 
-    enableBluetooth(timeout) {
+	enableBluetooth(timeout) {
 
-        // Enable Bluetooth
-        debug('Enabling Bluetooth...');
+		// Enable Bluetooth
+		debug('Enabling Bluetooth...');
 
-        ChildProcess.exec('sudo hciconfig hci0 piscan', (error, stdout, stderr) => {
-            if (!error) {
-                debug('Bluetooth enabled.');
+		ChildProcess.exec('sudo hciconfig hci0 piscan', (error, stdout, stderr) => {
+			if (!error) {
+				debug('Bluetooth enabled.');
 
-                if (timeout != undefined)
-                    setTimeout(this.disableDiscovery, timeout);
-            }
-            else {
-                console.log(error);
-            }
-        });
+				if (timeout != undefined)
+					setTimeout(this.disableDiscovery, timeout);
+			}
+			else {
+				console.log(error);
+			}
+		});
 
-    }
+	}
 
-    disableBluetooth() {
+	disableBluetooth() {
 
-        // Disable Bluetooth
-        debug('Disabling Bluetooth...');
+		// Disable Bluetooth
+		debug('Disabling Bluetooth...');
 
-        ChildProcess.exec('sudo hciconfig hci0 noscan', (error, stdout, stderr) => {
-        });
+		ChildProcess.exec('sudo hciconfig hci0 noscan', (error, stdout, stderr) => {
+		});
 
-    }
+	}
 
-    start() {
-        this.stop();
+	start() {
+		this.stop();
 
-        debug('File monotoring enabled on folder', this.path);
+		debug('File monotoring enabled on folder', this.path);
 
-        var timer = undefined;
-        var self  = this;
+		var timer = undefined;
+		var self  = this;
 
-        this.watcher = fs.watch(this.path, (type, fileName) => {
+		this.watcher = fs.watch(this.path, (type, fileName) => {
 
-            var fullFileName = Path.join(self.path, fileName);
+			var fullFileName = Path.join(self.path, fileName);
 
-            debug('File watch:', type, fileName, fullFileName);
+			debug('File watch:', type, fileName, fullFileName);
 
-            function emit() {
-                if (fs.existsSync(fullFileName)) {
+			function emit() {
+				if (fs.existsSync(fullFileName)) {
 
-                    debug('Reading contents...');
-                    var content = fs.readFileSync(fullFileName);
+					debug('Reading contents...');
+					var content = fs.readFileSync(fullFileName);
 
-                    debug('Deleteing file...');
-                    fs.unlinkSync(fullFileName);
+					debug('Deleteing file...');
+					fs.unlinkSync(fullFileName);
 
-                    debug('Emitting changes...');
-                    self.emit('change', fileName, content);
-                }
-            }
+					debug('Emitting changes...');
+					self.emit('change', fileName, content);
+				}
+			}
 
-            if (timer != undefined)
-                clearTimeout(timer);
+			if (timer != undefined)
+				clearTimeout(timer);
 
-            timer = setTimeout(emit, this.timeout);
+			timer = setTimeout(emit, this.timeout);
 
-        });
-    }
+		});
+	}
 
-    stop() {
-        if (this.watcher != undefined) {
-            debug('Stopping file monotoring on path', this.path);
+	stop() {
+		if (this.watcher != undefined) {
+			debug('Stopping file monotoring on path', this.path);
 
-            this.watcher.close();
-            this.watcher = undefined;
-        }
-    }
+			this.watcher.close();
+			this.watcher = undefined;
+		}
+	}
 
 
 };
