@@ -13,8 +13,9 @@ var Monitor = require('rpi-obex-monitor');
 var monitor = new Monitor();
 var Path    = require('path');
 
-// Enable Bluetooth discovery, call disableBluetooth() to stop
-monitor.enableBluetooth();
+// Enable Bluetooth discovery for 30 minutes.
+// Call disableBluetooth() to stop
+monitor.enableBluetooth(30000);
 
 // Start monitoring. Stop by calling stop()
 monitor.start();
