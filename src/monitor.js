@@ -17,7 +17,11 @@ module.exports = class Monitor extends Events {
 
 		var self = this;
 
-		options = Object.assign({timeout:4000}, options);
+		var defaults = {
+			timeout : 4000,
+			obex    : '/etc/systemd/system/obexpush.service'
+		}
+		options = Object.assign(defaults, options);
 
 		if (!options.debug) {
 			debug = function() {
@@ -27,7 +31,7 @@ module.exports = class Monitor extends Events {
 		function findObexPath() {
 			debug('Finding OBEX path!!');
 
-			var fileName = '/etc/systemd/system/obexpush.service';
+			var fileName = options.obex;
 
 			if (!fs.existsSync(fileName))
 				throw new Error('OBEX probably not installed.')
