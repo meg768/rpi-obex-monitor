@@ -11,6 +11,16 @@ monitor.on('change', (fileName, content) => {
     console.log('File name', fileName);
     console.log('Full path', Path.join(monitor.path, fileName));
     console.log('Content', content);
+
+    try {
+        var json = JSON.parse(content);
+
+        console.log(JSON.stringify(json, null, '\t'));
+
+    }
+    catch(error) {
+        
+    }
 });
 
 /*
