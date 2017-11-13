@@ -36,19 +36,15 @@ monitor.on('change', (fileName, content) => {
 
 Make sure Bluetooth is up and running.
 
-````bash
-    sudo bluetoothctl
-````
+    $ sudo bluetoothctl
 
 Enter the following commands
 
-````bash
     power on
     agent NoInputNoOutput
     default-agent
     pairable on
     exit
-````
 
 Follow this link to set up Bluetooth file transfer. https://www.raspberrypi.org/forums/viewtopic.php?p=963751#p963751
 It will make your Raspberry Pi accept files from your Mac or PC.
