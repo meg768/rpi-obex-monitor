@@ -25,12 +25,15 @@ module.exports = class Monitor extends Events {
             };
         }
 
-
-
         function findObexPath() {
             debug('Finding OBEX path!!');
+
             var fileName = '/etc/systemd/system/obexpush.service';
-            var content  = fs.readFileSync(fileName).toString();
+
+            if (!fs.existsSync(fileName))
+                throw new Error('OBEX probably not installed.')
+
+            var content = fs.readFileSync(fileName).toString();
 
             debug('Obex:', content);
 
@@ -38,13 +41,12 @@ module.exports = class Monitor extends Events {
                 var match = content.match('ExecStart=.*-o\s*(.*)[^\s].\n');
                 var path  = match[1].trim();
 
-                debug('OBEX:', path);
+                debug('OBEX path:', path);
                 return path;
 
             }
             catch (error) {
                 console.log(error);
-
             }
 
         }
