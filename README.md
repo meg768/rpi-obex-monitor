@@ -3,14 +3,22 @@
 Module for detecting when files has been transferred by Bluetooth (using OBEX)
 
 ## Installation
-	$ npm install rpi-bluetooth-monitor --save
+	$ npm install rpi-obex-monitor --save
 
 
 ## Usage
 
-    var Monitor = require('rpi-bluetooth-monitor');
-    var Monitor = new Monitor();
+    var Monitor = require('rpi-obex-monitor');
+    var monitor = new Monitor();
 
+    monitor.enableBluetooth();
+    monitor.start();
+
+    monitor.on('change', (fileName) => {
+        console.log('File changed.');
+        console.log('File name', fileName);
+        console.log('Full path', Path.join(monitor.path, fileName));
+    });
 
 ### Set up Bluetooth
 

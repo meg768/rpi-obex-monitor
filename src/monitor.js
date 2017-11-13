@@ -30,6 +30,7 @@ module.exports = class Monitor extends Events {
         this.path     = options.path;
         this.watcher  = undefined;
 
+
 	}
 
 
