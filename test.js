@@ -8,7 +8,7 @@ monitor.start();
 monitor.on('changed', (fileName) => {
     console.log('File changed.');
     console.log('File name', fileName);
-    console.log('Full path', Path.join(monitor.path, fileName);
+    console.log('Full path', Path.join(monitor.path, fileName));
 });
 
 /*
