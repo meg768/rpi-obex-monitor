@@ -16,12 +16,39 @@ module.exports = class Monitor extends Events {
 	constructor(options) {
 		super();
 
+        var self = this;
+
         options = Object.assign({timeout:4000}, options);
+
+
+        function findObexPath() {
+            var fileName = '/etc/systemd/system/obexpush.service';
+            var content  = fs.readFileSync(obexFileName);
+
+            debug('Obex:', content);
+
+            try {
+                var match = content.match('ExecStart=.*-o\s*(.*)[^\s].\n');
+                var path  = match[1].trim();
+
+                debug('OBEX:', path);
+                return path;
+
+            }
+            catch (error) {
+                console.log(error);
+
+            }
+
+        }
 
         if (!options.debug) {
             debug = function() {
             };
         }
+
+        if (options.path == undefined)
+            options.path = findObexPath();
 
         if (options.path == undefined)
             throw new Error('A path to monitor must be specified.')
