@@ -10,7 +10,6 @@ monitor.on('change', (fileName, content) => {
     console.log('File changed.');
     console.log('File name', fileName);
     console.log('Full path', Path.join(monitor.path, fileName));
-    console.log('Content', content);
 
     try {
         var json = JSON.parse(content);
@@ -19,6 +18,7 @@ monitor.on('change', (fileName, content) => {
 
     }
     catch(error) {
+        console.log('Content', content);
         
     }
 });
