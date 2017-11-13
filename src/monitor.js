@@ -112,8 +112,6 @@ module.exports = class Monitor extends Events {
             function emit() {
                 if (fs.existsSync(fullFileName)) {
 
-                    debug('Change', fileName);
-
                     debug('Reading contents...');
                     var content = fs.readFileSync(fullFileName);
 
