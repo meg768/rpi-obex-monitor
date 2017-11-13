@@ -5,7 +5,7 @@ var Path    = require('path');
 monitor.enableBluetooth();
 monitor.start();
 
-monitor.on('changed', (fileName) => {
+monitor.on('change', (fileName) => {
     console.log('File changed.');
     console.log('File name', fileName);
     console.log('Full path', Path.join(monitor.path, fileName));
