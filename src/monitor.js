@@ -73,10 +73,9 @@ module.exports = class Monitor extends Events {
 
         this.watcher = fs.watch(this.path, (type, fileName) => {
 
-
             function emit() {
                 console.log('Change', fileName);
-                self.emit('change', fileName);
+                self.emit('fileChanged', fileName);
             }
 
             if (timer != undefined)
