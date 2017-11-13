@@ -15,7 +15,7 @@ Module for detecting when files has been transferred by Bluetooth (using OBEX)
     monitor.start();
 
     monitor.on('change', (fileName) => {
-        console.log('File changed.');
+        console.log('File changed or created.');
         console.log('File name', fileName);
         console.log('Full path', Path.join(monitor.path, fileName));
     });
