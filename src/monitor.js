@@ -23,7 +23,7 @@ module.exports = class Monitor extends Events {
 
         function findObexPath() {
             var fileName = '/etc/systemd/system/obexpush.service';
-            var content  = fs.readFileSync(obexFileName);
+            var content  = fs.readFileSync(fileName);
 
             debug('Obex:', content);
 
