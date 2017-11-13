@@ -21,8 +21,8 @@ monitor.start();
 
 monitor.on('change', (fileName, content) => {
 
-	// The file has already been deleted.
-	// File contents is in the contents parameter.
+    // The file has already been deleted.
+    // File contents is in the contents parameter.
     console.log('File name', fileName);
     console.log('Full path', Path.join(monitor.path, fileName));
 
