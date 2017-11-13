@@ -23,6 +23,7 @@ monitor.on('change', (fileName, content) => {
 
     try {
         var json = JSON.parse(content);
+		console.log('JSON content');
         console.log(JSON.stringify(json, null, '\t'));
     }
     catch(error) {
