@@ -2,7 +2,6 @@
 var fs            = require('fs');
 var Events        = require('events');
 var ChildProcess  = require('child_process');
-var Watch         = require('watch');
 var Path          = require('path');
 
 function debug() {
@@ -27,7 +26,7 @@ module.exports = class Monitor extends Events {
 
 
 
-    enableDiscovery(timeout) {
+    enableBluetooth(timeout) {
 
         // Enable Bluetooth
         debug('Enabling Bluetooth...');
@@ -46,7 +45,7 @@ module.exports = class Monitor extends Events {
 
     }
 
-    disableDiscovery() {
+    disableBluetooth() {
 
         // Disable Bluetooth
         debug('Disabling Bluetooth...');
@@ -81,52 +80,12 @@ module.exports = class Monitor extends Events {
 
     stop() {
         if (this.watcher != undefined) {
-            debug('Stopping file monotoring on file', this.fileName);
+            debug('Stopping file monotoring on path', this.path);
 
             this.watcher.close();
             this.watcher = undefined;
         }
     }
 
-/*
-    start() {
-
-        this.stop();
-
-        debug('File monotoring enabled on folder', this.path);
-
-		Watch.createMonitor(this.path, (monitor) => {
-
-            this.monitor = monitor;
-
-			monitor.on('created', (file, stat) => {
-                debug('File created.', file, stat);
-				this.emit('created', file, stat);
-			});
-
-			monitor.on('changed', (file, stat) => {
-                debug('File changed.', file, stat);
-				this.emit('changed', file, stat);
-			});
-
-			monitor.on('removed', (file, stat) => {
-                debug('File removed.', file, stat);
-				this.emit('removed', file, stat);
-			});
-
-
-		});
-
-	}
-
-    stop() {
-        if (this.monitor != undefined) {
-            debug('Stopping file monotoring on file', this.fileName);
-
-            this.monitor.stop();
-            this.monitor = undefined;
-        }
-    }
-*/
 
 };
