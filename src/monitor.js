@@ -109,9 +109,8 @@ module.exports = class Monitor extends Events {
 
             debug('File watch:', type, fileName, fullFileName);
 
-            if (fs.existsSync(fullFileName)) {
-
-                function emit() {
+            function emit() {
+                if (fs.existsSync(fullFileName)) {
 
                     debug('Change', fileName);
 
@@ -124,13 +123,12 @@ module.exports = class Monitor extends Events {
                     debug('Emitting changes...');
                     self.emit('change', fileName, content);
                 }
-
-                if (timer != undefined)
-                    clearTimeout(timer);
-
-                timer = setTimeout(emit, this.timeout);
-
             }
+
+            if (timer != undefined)
+                clearTimeout(timer);
+
+            timer = setTimeout(emit, this.timeout);
 
         });
     }
