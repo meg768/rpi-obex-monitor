@@ -20,6 +20,12 @@ module.exports = class Monitor extends Events {
 
         options = Object.assign({timeout:4000}, options);
 
+        if (!options.debug) {
+            debug = function() {
+            };
+        }
+
+
 
         function findObexPath() {
             var fileName = '/etc/systemd/system/obexpush.service';
@@ -40,11 +46,6 @@ module.exports = class Monitor extends Events {
 
             }
 
-        }
-
-        if (!options.debug) {
-            debug = function() {
-            };
         }
 
         if (options.path == undefined)
