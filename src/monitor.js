@@ -105,27 +105,31 @@ module.exports = class Monitor extends Events {
 
         this.watcher = fs.watch(this.path, (type, fileName) => {
 
-            debug('File watch:', type, fileName);
+            if (fs.existsSync(fileName)) {
+                debug('File watch:', type, fileName);
 
-            function emit() {
-                var fullFileName = Path.join(self.path, fileName);
+                function emit() {
+                    var fullFileName = Path.join(self.path, fileName);
 
-                debug('Change', fileName);
+                    debug('Change', fileName);
 
-                debug('Reading contents...');
-                var content = fs.readFileSync(fullFileName);
+                    debug('Reading contents...');
+                    var content = fs.readFileSync(fullFileName);
 
-                debug('Deleteing file...');
-                fs.unlinkSync(fullFileName);
+                    debug('Deleteing file...');
+                    fs.unlinkSync(fullFileName);
 
-                debug('Emitting changes...');
-                self.emit('change', fileName, content);
+                    debug('Emitting changes...');
+                    self.emit('change', fileName, content);
+                }
+
+                if (timer != undefined)
+                    clearTimeout(timer);
+
+                timer = setTimeout(emit, this.timeout);
+
             }
 
-            if (timer != undefined)
-                clearTimeout(timer);
-
-            timer = setTimeout(emit, this.timeout);
         });
     }
 
