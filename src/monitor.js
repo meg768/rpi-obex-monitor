@@ -7,7 +7,6 @@ var Path          = require('path');
 var debugEnabled  = false;
 
 function debug() {
-    console.log.apply(this, arguments);
 }
 
 
@@ -18,8 +17,10 @@ module.exports = class Monitor extends Events {
 
         options = options || {};
 
-        if (options.debug == undefined) {
-            debug = function() {};
+        if (options.debug != undefined) {
+            debug = function() {
+                console.log.apply(this, arguments);
+            };
         }
 
         if (options.path == undefined)
