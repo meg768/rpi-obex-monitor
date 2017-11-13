@@ -1,0 +1,22 @@
+{
+  "name": "rpi-obex-monitor",
+  "version": "1.0.0",
+  "description": "Module for detecting when files has been transferred by Bluetooth (using OBEX)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/meg768/rpi-obex-monitor.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/meg768/rpi-obex-monitor/issues"
+  },
+  "homepage": "https://github.com/meg768/rpi-obex-monitor#readme",
+  "dependencies": {
+    "watch": "^1.0.2"
+  }
+}
