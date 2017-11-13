@@ -63,10 +63,12 @@ module.exports = class Monitor extends Events {
 
         var start = new Date();
         var last  = new Date();
+
         this.watcher = fs.watch(this.path, (type, fileName) => {
+            var now = new Date();
             console.log('Type', type, 'Filename', fileName);
-            last = new Date();
-            console.log((last - start) / 1000);
+            console.log((now - last) / 1000);
+            last = now;
         });
     }
 
