@@ -106,9 +106,16 @@ module.exports = class Monitor extends Events {
         this.watcher = fs.watch(this.path, (type, fileName) => {
 
             function emit() {
-                console.log('Change', fileName);
+                debug('Change', fileName);
+
+                debug('Reading contents...');
                 var content = fs.readFileSync(fileName);
+
+                debug('Deleteing file...');
                 fs.unlinkSync(fileName);
+
+                debug('Emitting changes...');
+                
                 self.emit('change', fileName, content);
             }
 
