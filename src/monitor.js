@@ -17,7 +17,7 @@ module.exports = class Monitor extends Events {
 		var self = this;
 
 		var defaults = {
-			timeout : 4000,
+			timeout : 5000,
 			service : '/etc/systemd/system/obexpush.service'
 		}
 
