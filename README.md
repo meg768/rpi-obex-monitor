@@ -13,13 +13,6 @@ var Monitor = require('rpi-obex-monitor');
 var monitor = new Monitor();
 var Path    = require('path');
 
-// Enable Bluetooth discovery for 30 minutes.
-// Call disableBluetooth() to stop
-monitor.enableBluetooth(30 * 60 * 1000);
-
-// Start monitoring. Stop by calling stop()
-monitor.start();
-
 monitor.on('upload', (fileName, content) => {
 
     // The file has already been deleted.
@@ -37,6 +30,13 @@ monitor.on('upload', (fileName, content) => {
         console.log(content);
     }
 });
+
+// Enable Bluetooth discovery for 30 minutes.
+// Call disableBluetooth() to stop
+monitor.enableBluetooth(30 * 60 * 1000);
+
+// Start monitoring. Stop by calling stop()
+monitor.start();
 ````
 
 ### Set up Bluetooth
