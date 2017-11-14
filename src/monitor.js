@@ -121,7 +121,9 @@ module.exports = class Monitor extends Events {
 			processFile(file);
 		});
 
-		chokidar.watch(this.path, {ignored: /(^|[\/\\])\../}).on('all', (event, path) => {
+		this.watcher = chokidar.watch(this.path, {ignored: /(^|[\/\\])\../});
+
+		this.watcher.on('all', (event, path) => {
 			console.log(event, path);
 		});
 /*
