@@ -110,10 +110,9 @@ module.exports = class Monitor extends Events {
 				debug('Reading contents from', fullFileName, '...');
 				var content = fs.readFileSync(fullFileName);
 
-				debug('Deleteing file...');
+				debug('Deleteing file', fullFileName, '...');
 				fs.unlinkSync(fullFileName);
 
-				debug('Emitting changes...');
 				self.emit('upload', fileName, content);
 
             }
