@@ -126,11 +126,17 @@ module.exports = class Monitor extends Events {
 		this.watcher = fs.watch(this.path, (type, fileName) => {
 
 			debug('File watch:', type, fileName);
+			var fullFileName = Path.join(self.path, fileName);
 
-			if (timer != undefined)
-				clearTimeout(timer);
+			if (fs.existsSync(fullFileName)) {
+				console.log('stat', fs.statSync(fullFileName));
+				
+				if (timer != undefined)
+					clearTimeout(timer);
 
-			timer = setTimeout(processFile.bind(null, fileName), this.timeout);
+				timer = setTimeout(processFile.bind(null, fileName), this.timeout);
+
+			}
 
 		});
 	}
