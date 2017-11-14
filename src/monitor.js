@@ -106,7 +106,7 @@ module.exports = class Monitor extends Events {
 		function processFile(fileName) {
 			var fullFileName = Path.join(self.path, fileName);
 
-            if (!fs.statSync(fullFileName).isDirectory()) {
+            if (fs.existsSync(fullFileName) && !fs.statSync(fullFileName).isDirectory()) {
 				debug('Reading contents from', fullFileName, '...');
 				var content = fs.readFileSync(fullFileName);
 
