@@ -1,4 +1,3 @@
-/*
 var Monitor = require('./src/monitor.js');
 var monitor = new Monitor({debug:true});
 var Path    = require('path');
@@ -20,25 +19,3 @@ monitor.on('change', (fileName, content) => {
         console.log(content);
     }
 });
-
-*/
-var fs      = require('fs');
-var Path    = require('path');
-
-        var path = "/Users/magnus";
-
-		fs.readdirSync(path).forEach(file => {
-
-            var fileName = Path.join(path, file);
-
-            if (!fs.statSync(fileName).isDirectory()) {
-                console.log(file);
-
-            }
-		});
-/*
-setTimeout(function() {
-    monitor.stop();
-}, 1000);
-
-*/

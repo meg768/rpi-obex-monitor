@@ -18,8 +18,9 @@ module.exports = class Monitor extends Events {
 
 		var defaults = {
 			timeout : 4000,
-			obex    : '/etc/systemd/system/obexpush.service'
+			service : '/etc/systemd/system/obexpush.service'
 		}
+
 		options = Object.assign(defaults, options);
 
 		if (options.debug) {
@@ -31,10 +32,10 @@ module.exports = class Monitor extends Events {
 		function getObexPath() {
 			debug('Finding OBEX path...');
 
-			var fileName = options.obex;
+			var fileName = options.service;
 
 			if (!fs.existsSync(fileName))
-				throw new Error('OBEX probably not installed.')
+				throw new Error('OBEX probably not installed.');
 
 			var content = fs.readFileSync(fileName).toString();
 
@@ -63,11 +64,7 @@ module.exports = class Monitor extends Events {
 		this.timeout  = options.timeout;
 		this.path     = options.path;
 		this.watcher  = undefined;
-
-
 	}
-
-
 
 	enableBluetooth(timeout) {
 
@@ -109,51 +106,32 @@ module.exports = class Monitor extends Events {
 		function processFile(fileName) {
 			var fullFileName = Path.join(self.path, fileName);
 
-			debug('File watch:', type, fileName, fullFileName);
+            if (!fs.statSync(fullFileName).isDirectory()) {
+				debug('Reading contents from', fullFileName, '...');
+				var content = fs.readFileSync(fullFileName);
 
-			function emit() {
-				if (fs.existsSync(fullFileName)) {
+				debug('Deleteing file...');
+				fs.unlinkSync(fullFileName);
 
-					debug('Reading contents...');
-					var content = fs.readFileSync(fullFileName);
+				debug('Emitting changes...');
+				self.emit('upload', fileName, content);
 
-					debug('Deleteing file...');
-					fs.unlinkSync(fullFileName);
-
-					debug('Emitting changes...');
-					self.emit('upload', fileName, content);
-				}
-			}
+            }
 		}
 
+		// Process all existing files
 		fs.readdirSync(this.path).forEach(file => {
-  			console.log(file);
+			processFile(file);
 		});
 
 		this.watcher = fs.watch(this.path, (type, fileName) => {
 
-			var fullFileName = Path.join(self.path, fileName);
-
-			debug('File watch:', type, fileName, fullFileName);
-
-			function emit() {
-				if (fs.existsSync(fullFileName)) {
-
-					debug('Reading contents...');
-					var content = fs.readFileSync(fullFileName);
-
-					debug('Deleteing file...');
-					fs.unlinkSync(fullFileName);
-
-					debug('Emitting changes...');
-					self.emit('upload', fileName, content);
-				}
-			}
+			debug('File watch:', type, fileName);
 
 			if (timer != undefined)
 				clearTimeout(timer);
 
-			timer = setTimeout(emit, this.timeout);
+			timer = setTimeout(processFile.bind(null, fileName), this.timeout);
 
 		});
 	}
