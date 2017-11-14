@@ -1,6 +1,6 @@
 {
   "name": "rpi-obex-monitor",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Module for detecting when files has been transferred by Bluetooth (using OBEX)",
   "main": "index.js",
   "scripts": {
