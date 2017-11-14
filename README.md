@@ -20,7 +20,7 @@ monitor.enableBluetooth(30 * 60 * 1000);
 // Start monitoring. Stop by calling stop()
 monitor.start();
 
-monitor.on('change', (fileName, content) => {
+monitor.on('upload', (fileName, content) => {
 
     // The file has already been deleted.
     // File contents is in the contents parameter.

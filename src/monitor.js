@@ -122,7 +122,7 @@ module.exports = class Monitor extends Events {
 					fs.unlinkSync(fullFileName);
 
 					debug('Emitting changes...');
-					self.emit('change', fileName, content);
+					self.emit('upload', fileName, content);
 				}
 			}
 
