@@ -2,8 +2,6 @@ var Monitor = require('./src/monitor.js');
 var monitor = new Monitor({debug:true});
 var Path    = require('path');
 
-monitor.enableBluetooth();
-monitor.start();
 
 monitor.on('upload', (fileName, content) => {
 
@@ -19,3 +17,6 @@ monitor.on('upload', (fileName, content) => {
         console.log(content);
     }
 });
+
+monitor.enableBluetooth();
+monitor.start();
