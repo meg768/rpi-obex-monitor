@@ -29,7 +29,7 @@ module.exports = class Monitor extends Events {
 		}
 
 		function findObexPath() {
-			debug('Finding OBEX path!!');
+			debug('Finding OBEX path...');
 
 			var fileName = options.obex;
 
@@ -38,7 +38,7 @@ module.exports = class Monitor extends Events {
 
 			var content = fs.readFileSync(fileName).toString();
 
-			debug('Obex:', content);
+			debug('OBEX content:', content);
 
 			try {
 				var match = content.match('ExecStart=.*-o\s*(.*)[^\s].\n');
