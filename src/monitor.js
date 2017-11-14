@@ -6,7 +6,6 @@ var Path          = require('path');
 
 
 function debug() {
-	console.log.apply(this, arguments);
 }
 
 
@@ -23,12 +22,13 @@ module.exports = class Monitor extends Events {
 		}
 		options = Object.assign(defaults, options);
 
-		if (!options.debug) {
+		if (options.debug) {
 			debug = function() {
+				console.log.apply(this, arguments);
 			};
 		}
 
-		function findObexPath() {
+		function getObexPath() {
 			debug('Finding OBEX path...');
 
 			var fileName = options.obex;
@@ -55,7 +55,7 @@ module.exports = class Monitor extends Events {
 		}
 
 		if (options.path == undefined)
-			options.path = findObexPath();
+			options.path = getObexPath();
 
 		if (options.path == undefined)
 			throw new Error('A path to monitor must be specified.')
@@ -105,6 +105,30 @@ module.exports = class Monitor extends Events {
 
 		var timer = undefined;
 		var self  = this;
+
+		function processFile(fileName) {
+			var fullFileName = Path.join(self.path, fileName);
+
+			debug('File watch:', type, fileName, fullFileName);
+
+			function emit() {
+				if (fs.existsSync(fullFileName)) {
+
+					debug('Reading contents...');
+					var content = fs.readFileSync(fullFileName);
+
+					debug('Deleteing file...');
+					fs.unlinkSync(fullFileName);
+
+					debug('Emitting changes...');
+					self.emit('upload', fileName, content);
+				}
+			}
+		}
+
+		fs.readdirSync(this.path).forEach(file => {
+  			console.log(file);
+		});
 
 		this.watcher = fs.watch(this.path, (type, fileName) => {
 

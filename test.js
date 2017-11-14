@@ -1,7 +1,9 @@
 var Monitor = require('./src/monitor.js');
 var monitor = new Monitor({debug:true});
 var Path    = require('path');
+var fs      = require('fs');
 
+/*
 monitor.enableBluetooth();
 monitor.start();
 
@@ -20,6 +22,11 @@ monitor.on('change', (fileName, content) => {
     }
 });
 
+*/
+
+		fs.readdirSync("/tmp").forEach(file => {
+  			console.log(file);
+		});
 /*
 setTimeout(function() {
     monitor.stop();
