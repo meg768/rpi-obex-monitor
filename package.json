@@ -17,5 +17,6 @@
   },
   "homepage": "https://github.com/meg768/rpi-obex-monitor#readme",
   "dependencies": {
+    "chokidar": "^1.7.0"
   }
 }

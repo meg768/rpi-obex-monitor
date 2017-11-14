@@ -3,7 +3,7 @@ var fs            = require('fs');
 var Events        = require('events');
 var ChildProcess  = require('child_process');
 var Path          = require('path');
-
+var chokidar      = require('chokidar');
 
 function debug() {
 }
@@ -121,6 +121,10 @@ module.exports = class Monitor extends Events {
 			processFile(file);
 		});
 
+		chokidar.watch(this.path, {ignored: /(^|[\/\\])\../}).on('all', (event, path) => {
+			console.log(event, path);
+		});
+/*
 		this.watcher = fs.watch(this.path, (type, fileName) => {
 
 			debug('File watch:', type, fileName);
@@ -137,6 +141,7 @@ module.exports = class Monitor extends Events {
 			}
 
 		});
+		*/
 	}
 
 	stop() {
