@@ -1,6 +1,6 @@
 # rpi-obex-monitor
 
-Module for detecting when files has been transferred by Bluetooth (using OBEX)
+A Raspberry Pi module for detecting when a file has been uploaded using Bluetooth (by OBEX).
 
 ## Installation
 	$ npm install rpi-obex-monitor --save
