@@ -39,8 +39,6 @@ module.exports = class Monitor extends Events {
 
 			var content = fs.readFileSync(fileName).toString();
 
-			debug('OBEX content:', content);
-
 			try {
 				var match = content.match('ExecStart=.*-o\s*(.*)[^\s].\n');
 				var path  = match[1].trim();
@@ -130,7 +128,7 @@ module.exports = class Monitor extends Events {
 
 			if (fs.existsSync(fullFileName)) {
 				console.log('stat', fs.statSync(fullFileName));
-				
+
 				if (timer != undefined)
 					clearTimeout(timer);
 
