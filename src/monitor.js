@@ -125,6 +125,13 @@ module.exports = class Monitor extends Events {
 
 		this.watcher.on('all', (event, path) => {
 			console.log(event, path);
+
+			if (fs.existsSync(path)) {
+				console.log('stat', fs.statSync(path));
+
+
+			}
+
 		});
 /*
 		this.watcher = fs.watch(this.path, (type, fileName) => {
