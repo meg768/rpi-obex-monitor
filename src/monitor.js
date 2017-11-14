@@ -142,7 +142,6 @@ module.exports = class Monitor extends Events {
 			var fullFileName = Path.join(self.path, fileName);
 
 			if (fs.existsSync(fullFileName)) {
-				console.log('stat', fs.statSync(fullFileName));
 
 				if (timer != undefined)
 					clearTimeout(timer);
